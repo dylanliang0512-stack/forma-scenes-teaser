@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Forma Scenes | Precision AI Composition</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-container-highest": "#e2e2e2",
+                      "on-error-container": "#93000a",
+                      "outline": "#76777b",
+                      "surface-container-high": "#e8e8e8",
+                      "surface-bright": "#edece6",
+                      "on-surface": "#1a1c1c",
+                      "on-secondary": "#ffffff",
+                      "tertiary": "#030709",
+                      "surface-dim": "#dadada",
+                      "on-error": "#ffffff",
+                      "on-tertiary-fixed-variant": "#41484b",
+                      "tertiary-fixed-dim": "#c1c8cb",
+                      "on-tertiary": "#ffffff",
+                      "surface-container-low": "#f3f3f4",
+                      "inverse-primary": "#c7c6c8",
+                      "secondary-fixed-dim": "#c4c7c9",
+                      "secondary": "#5b5f61",
+                      "error": "#ba1a1a",
+                      "on-primary-container": "#868689",
+                      "on-primary-fixed-variant": "#464749",
+                      "primary-fixed-dim": "#c7c6c8",
+                      "on-secondary-fixed": "#181c1e",
+                      "on-secondary-container": "#5f6365",
+                      "on-background": "#1a1c1c",
+                      "tertiary-fixed": "#dde3e7",
+                      "primary": "#060608",
+                      "cta": "#c9ae38",
+                      "on-cta": "#060608",
+                      "surface": "#edece6",
+                      "secondary-container": "#dde0e2",
+                      "on-primary-fixed": "#1b1c1e",
+                      "error-container": "#ffdad6",
+                      "inverse-surface": "#2f3131",
+                      "secondary-fixed": "#e0e3e5",
+                      "inverse-on-surface": "#f0f1f1",
+                      "surface-tint": "#5e5e60",
+                      "on-secondary-fixed-variant": "#434749",
+                      "on-primary": "#ffffff",
+                      "on-tertiary-container": "#81888b",
+                      "outline-variant": "#c6c6ca",
+                      "on-tertiary-fixed": "#161d1f",
+                      "surface-container": "#eeeeee",
+                      "on-surface-variant": "#45474a",
+                      "surface-variant": "#e2e2e2",
+                      "primary-fixed": "#e3e2e4",
+                      "background": "#edece6",
+                      "tertiary-container": "#192023",
+                      "primary-container": "#1e1f21",
+                      "surface-container-lowest": "#edece6"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.375rem",
+                      "lg": "0.5rem",
+                      "xl": "0.625rem",
+                      "2xl": "0.75rem",
+                      "3xl": "1rem",
+                      "full": "9999px"
+              },
+              "fontFamily": {
+                      "headline": ["Manrope"],
+                      "body": ["Manrope"],
+                      "label": ["Manrope"]
+              }
+            },
+          }
+        }
+      </script>
+<style>
+        html { scroll-behavior: smooth; }
+        @media (prefers-reduced-motion: reduce) {
+          html { scroll-behavior: auto; }
+          .reveal {
+            opacity: 1 !important;
+            transform: none !important;
+            transition: none !important;
+          }
+          .edit-stage-img {
+            transition: none !important;
+          }
+        }
+        body { font-family: 'Manrope', sans-serif; line-height: 1.55; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24; }
+        .glass-panel { backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        a:focus-visible, button:focus-visible {
+          outline: 2px solid #060608;
+          outline-offset: 3px;
+        }
+        .bg-primary a:focus-visible, .bg-primary button:focus-visible,
+        .bg-tertiary a:focus-visible, .bg-tertiary button:focus-visible {
+          outline-color: #f9f9f9;
+        }
+        .ease-calm { transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1); }
+        .reveal {
+          opacity: 0;
+          transition: opacity 0.85s cubic-bezier(0.22, 1, 0.36, 1), transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .reveal:not(.reveal-fade):not(.reveal-from-left):not(.reveal-from-right) {
+          transform: translate3d(0, 14px, 0);
+        }
+        .reveal.reveal-fade {
+          transform: none;
+        }
+        .reveal.reveal-from-left {
+          transform: translate3d(-12px, 0, 0);
+        }
+        .reveal.reveal-from-right {
+          transform: translate3d(12px, 0, 0);
+        }
+        .reveal.is-visible {
+          opacity: 1;
+          transform: translate3d(0, 0, 0);
+        }
+        .reveal-delay-1 { transition-delay: 90ms; }
+        .reveal-delay-2 { transition-delay: 180ms; }
+        .reveal-delay-3 { transition-delay: 270ms; }
+        .reveal-delay-4 { transition-delay: 360ms; }
+        .img-hover {
+          transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        /* Stacked A/B/C crossfade (Visual Showcase) */
+        .edit-stage-img {
+          transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface selection:bg-cta/35 selection:text-primary">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-[#edece6]/85 backdrop-blur-xl border-b border-black/[0.07] shadow-sm shadow-black/[0.03]">
+<div class="relative flex items-center justify-between gap-4 px-6 sm:px-10 md:px-12 py-4 md:py-5 max-w-7xl mx-auto w-full min-h-[3.25rem] md:min-h-[3.5rem]">
+<div class="flex items-center min-w-0 shrink-0 z-10">
+<div class="text-2xl font-bold tracking-tighter text-neutral-900 leading-none">Forma</div>
+</div>
+<div class="hidden md:flex absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 items-center pointer-events-none">
+<div class="flex items-center gap-8 lg:gap-10 font-manrope tracking-tight font-medium pointer-events-auto">
+<a class="inline-flex items-center text-neutral-900 font-bold border-b-2 border-neutral-900 pb-1 leading-none transition-colors duration-300 ease-calm shrink-0" href="#">Features</a>
+<a class="inline-flex items-center text-neutral-500 border-b-2 border-transparent pb-1 leading-none hover:text-neutral-900 transition-colors duration-300 ease-calm shrink-0" href="#">Showcase</a>
+<a class="inline-flex items-center text-neutral-500 border-b-2 border-transparent pb-1 leading-none hover:text-neutral-900 transition-colors duration-300 ease-calm shrink-0" href="#">Pricing</a>
+</div>
+</div>
+<div class="flex items-center justify-end gap-4 md:gap-5 shrink-0 z-10">
+<button type="button" class="font-manrope text-sm font-semibold text-neutral-600 hover:text-neutral-900 transition-colors duration-300 ease-calm whitespace-nowrap">Log in</button>
+<button type="button" class="bg-cta text-on-cta px-5 py-2.5 rounded-full font-manrope text-sm font-bold shadow-sm shadow-black/15 hover:brightness-95 hover:shadow-md hover:shadow-black/25 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] transition-all duration-300 ease-calm whitespace-nowrap">Get started</button>
+</div>
+</div>
+</nav>
+<main>
+<!-- Section: Visual Showcase (gallery) — A/B/C stacked crossfade per composition -->
+<section class="pt-28 sm:pt-32 md:pt-36 pb-16 md:pb-20 px-6 sm:px-10 md:px-12 bg-primary text-on-primary border-b border-white/10">
+<div class="max-w-7xl mx-auto w-full">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6 w-full">
+<div class="flex flex-col" data-edit-gallery>
+<div class="relative aspect-[4/5] rounded-md overflow-hidden ring-1 ring-white/[0.08] bg-black/25">
+<img class="edit-stage-img absolute inset-0 w-full h-full object-cover opacity-100 z-[2]" data-stage="0" src="Images/Image_1_A.png" alt="" loading="lazy" decoding="async" aria-hidden="false"/>
+<img class="edit-stage-img absolute inset-0 w-full h-full object-cover opacity-0 z-[1]" data-stage="1" src="Images/Image_1_B.png" alt="" loading="lazy" decoding="async" aria-hidden="true"/>
+<img class="edit-stage-img absolute inset-0 w-full h-full object-cover opacity-0 z-[1]" data-stage="2" src="Images/Image_1_C.png" alt="" loading="lazy" decoding="async" aria-hidden="true"/>
+</div>
+<div class="mt-3 flex justify-center min-w-0" role="tablist" aria-label="Composition 1 editing stages">
+<div class="edit-stage-tabs inline-flex w-full max-w-full rounded-full bg-white/[0.06] p-0.5 ring-1 ring-white/[0.08] shadow-inner shadow-black/25 gap-0.5">
+<button type="button" role="tab" aria-selected="true" data-stage-tab="0" class="edit-stage-tab flex-1 min-w-0 rounded-full px-1.5 sm:px-2 py-1.5 text-[9px] sm:text-[11px] font-semibold tracking-tight transition-colors duration-300 ease-calm bg-white/[0.14] text-white shadow-sm">Layout</button>
+<button type="button" role="tab" aria-selected="false" data-stage-tab="1" class="edit-stage-tab flex-1 min-w-0 rounded-full px-1.5 sm:px-2 py-1.5 text-[9px] sm:text-[11px] font-semibold tracking-tight transition-colors duration-300 ease-calm text-white/45 hover:text-white/80" title="Lighting">Lighting</button>
+<button type="button" role="tab" aria-selected="false" data-stage-tab="2" class="edit-stage-tab flex-1 min-w-0 rounded-full px-1.5 sm:px-2 py-1.5 text-[9px] sm:text-[11px] font-semibold tracking-tight transition-colors duration-300 ease-calm text-white/45 hover:text-white/80">Refined</button>
+</div>
+</div>
+</div>
+<div class="flex flex-col" data-edit-gallery>
+<div class="relative aspect-[4/5] rounded-md overflow-hidden ring-1 ring-white/[0.08] bg-black/25">
+<img class="edit-stage-img absolute inset-0 w-full h-full object-cover opacity-100 z-[2]" data-stage="0" src="Images/Image_2_A.png" alt="" loading="lazy" decoding="async" aria-hidden="false"/>
+<img class="edit-stage-img absolute inset-0 w-full h-full object-cover opacity-0 z-[1]" data-stage="1" src="Images/Image_2_B.png" alt="" loading="lazy" decoding="async" aria-hidden="true"/>
+<img class="edit-stage-img absolute inset-0 w-full h-full object-cover opacity-0 z-[1]" data-stage="2" src="Images/Image_2_C.png" alt="" loading="lazy" decoding="async" aria-hidden="true"/>
+</div>
+<div class="mt-3 flex justify-center min-w-0" role="tablist" aria-label="Composition 2 editing stages">
+<div class="edit-stage-tabs inline-flex w-full max-w-full rounded-full bg-white/[0.06] p-0.5 ring-1 ring-white/[0.08] shadow-inner shadow-black/25 gap-0.5">
+<button type="button" role="tab" aria-selected="true" data-stage-tab="0" class="edit-stage-tab flex-1 min-w-0 rounded-full px-1.5 sm:px-2 py-1.5 text-[9px] sm:text-[11px] font-semibold tracking-tight transition-colors duration-300 ease-calm bg-white/[0.14] text-white shadow-sm">Layout</button>
+<button type="button" role="tab" aria-selected="false" data-stage-tab="1" class="edit-stage-tab flex-1 min-w-0 rounded-full px-1.5 sm:px-2 py-1.5 text-[9px] sm:text-[11px] font-semibold tracking-tight transition-colors duration-300 ease-calm text-white/45 hover:text-white/80" title="Lighting">Lighting</button>
+<button type="button" role="tab" aria-selected="false" data-stage-tab="2" class="edit-stage-tab flex-1 min-w-0 rounded-full px-1.5 sm:px-2 py-1.5 text-[9px] sm:text-[11px] font-semibold tracking-tight transition-colors duration-300 ease-calm text-white/45 hover:text-white/80">Refined</button>
+</div>
+</div>
+</div>
+<div class="flex flex-col" data-edit-gallery>
+<div class="relative aspect-[4/5] rounded-md overflow-hidden ring-1 ring-white/[0.08] bg-black/25">
+<img class="edit-stage-img absolute inset-0 w-full h-full object-cover opacity-100 z-[2]" data-stage="0" src="Images/Image_3_A.png" alt="" loading="lazy" decoding="async" aria-hidden="false"/>
+<img class="edit-stage-img absolute inset-0 w-full h-full object-cover opacity-0 z-[1]" data-stage="1" src="Images/Image_3_B.png" alt="" loading="lazy" decoding="async" aria-hidden="true"/>
+<img class="edit-stage-img absolute inset-0 w-full h-full object-cover opacity-0 z-[1]" data-stage="2" src="Images/Image_3_C.png" alt="" loading="lazy" decoding="async" aria-hidden="true"/>
+</div>
+<div class="mt-3 flex justify-center min-w-0" role="tablist" aria-label="Composition 3 editing stages">
+<div class="edit-stage-tabs inline-flex w-full max-w-full rounded-full bg-white/[0.06] p-0.5 ring-1 ring-white/[0.08] shadow-inner shadow-black/25 gap-0.5">
+<button type="button" role="tab" aria-selected="true" data-stage-tab="0" class="edit-stage-tab flex-1 min-w-0 rounded-full px-1.5 sm:px-2 py-1.5 text-[9px] sm:text-[11px] font-semibold tracking-tight transition-colors duration-300 ease-calm bg-white/[0.14] text-white shadow-sm">Layout</button>
+<button type="button" role="tab" aria-selected="false" data-stage-tab="1" class="edit-stage-tab flex-1 min-w-0 rounded-full px-1.5 sm:px-2 py-1.5 text-[9px] sm:text-[11px] font-semibold tracking-tight transition-colors duration-300 ease-calm text-white/45 hover:text-white/80" title="Lighting">Lighting</button>
+<button type="button" role="tab" aria-selected="false" data-stage-tab="2" class="edit-stage-tab flex-1 min-w-0 rounded-full px-1.5 sm:px-2 py-1.5 text-[9px] sm:text-[11px] font-semibold tracking-tight transition-colors duration-300 ease-calm text-white/45 hover:text-white/80">Refined</button>
+</div>
+</div>
+</div>
+<div class="flex flex-col" data-edit-gallery>
+<div class="relative aspect-[4/5] rounded-md overflow-hidden ring-1 ring-white/[0.08] bg-black/25">
+<img class="edit-stage-img absolute inset-0 w-full h-full object-cover opacity-100 z-[2]" data-stage="0" src="Images/Image_4_A.png" alt="" loading="lazy" decoding="async" aria-hidden="false"/>
+<img class="edit-stage-img absolute inset-0 w-full h-full object-cover opacity-0 z-[1]" data-stage="1" src="Images/Image_4_B.png" alt="" loading="lazy" decoding="async" aria-hidden="true"/>
+<img class="edit-stage-img absolute inset-0 w-full h-full object-cover opacity-0 z-[1]" data-stage="2" src="Images/Image_4_C.png" alt="" loading="lazy" decoding="async" aria-hidden="true"/>
+</div>
+<div class="mt-3 flex justify-center min-w-0" role="tablist" aria-label="Composition 4 editing stages">
+<div class="edit-stage-tabs inline-flex w-full max-w-full rounded-full bg-white/[0.06] p-0.5 ring-1 ring-white/[0.08] shadow-inner shadow-black/25 gap-0.5">
+<button type="button" role="tab" aria-selected="true" data-stage-tab="0" class="edit-stage-tab flex-1 min-w-0 rounded-full px-1.5 sm:px-2 py-1.5 text-[9px] sm:text-[11px] font-semibold tracking-tight transition-colors duration-300 ease-calm bg-white/[0.14] text-white shadow-sm">Layout</button>
+<button type="button" role="tab" aria-selected="false" data-stage-tab="1" class="edit-stage-tab flex-1 min-w-0 rounded-full px-1.5 sm:px-2 py-1.5 text-[9px] sm:text-[11px] font-semibold tracking-tight transition-colors duration-300 ease-calm text-white/45 hover:text-white/80" title="Lighting">Lighting</button>
+<button type="button" role="tab" aria-selected="false" data-stage-tab="2" class="edit-stage-tab flex-1 min-w-0 rounded-full px-1.5 sm:px-2 py-1.5 text-[9px] sm:text-[11px] font-semibold tracking-tight transition-colors duration-300 ease-calm text-white/45 hover:text-white/80">Refined</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 1: Hero -->
+<section class="bg-surface flex flex-col items-center justify-center px-6 sm:px-10 md:px-12 py-14 md:py-16 text-center border-b border-black/[0.05]">
+<div class="w-full max-w-7xl mx-auto flex flex-col items-center justify-center gap-7 md:gap-8">
+<div class="w-full flex flex-col items-center reveal">
+<span class="font-headline text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tighter text-primary leading-[1.1]">Scenes</span>
+</div>
+<h1 class="font-headline text-2xl sm:text-3xl md:text-4xl font-normal tracking-tight leading-[1.35] md:leading-[1.3] text-primary max-w-2xl mx-auto reveal reveal-delay-1">
+                    Place, layer, and arrange <br/>
+                    AI elements with surgical precision.
+                </h1>
+<div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full sm:w-auto reveal reveal-delay-2">
+<button type="button" class="bg-cta text-on-cta px-8 py-3.5 rounded-full font-bold text-base md:text-lg shadow-lg shadow-black/15 hover:brightness-95 hover:shadow-xl hover:shadow-black/20 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] transition-all duration-300 ease-calm w-full sm:w-auto">Start composing</button>
+<button type="button" class="bg-white text-on-surface px-8 py-3.5 rounded-full font-bold text-base md:text-lg border border-black/[0.08] hover:bg-white hover:border-black/15 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] transition-all duration-300 ease-calm shadow-sm shadow-black/[0.06] w-full sm:w-auto">View gallery</button>
+</div>
+</div>
+</section>
+<!-- Section 2: Launch Video -->
+<section class="bg-tertiary py-16 md:py-20 px-6 sm:px-10 md:px-12 border-y border-white/10">
+<div class="w-full max-w-7xl mx-auto flex flex-col items-center">
+<div class="w-full reveal reveal-fade">
+<div class="relative w-full aspect-video rounded-xl overflow-hidden shadow-2xl shadow-black/40 ring-1 ring-white/10 bg-black/30 isolate">
+<video id="forma-brand-video" class="absolute inset-0 w-full h-full object-cover" src="Assets/Video/Forma.mp4" muted loop playsinline preload="metadata">
+                Your browser does not support the video tag.
+            </video>
+<div class="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/55 via-black/20 to-transparent"></div>
+<div class="absolute bottom-0 left-0 right-0 flex items-center justify-center gap-3 pb-5 pt-2 px-5">
+<button type="button" id="forma-video-play" class="inline-flex items-center justify-center w-11 h-11 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white shadow-lg shadow-black/15 hover:bg-white/15 hover:border-white/30 transition-all duration-300 ease-calm focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent" aria-label="Pause">
+<span class="material-symbols-outlined text-[22px] leading-none forma-video-play-icon" aria-hidden="true">pause</span>
+</button>
+<button type="button" id="forma-video-mute" class="inline-flex items-center justify-center w-11 h-11 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white shadow-lg shadow-black/15 hover:bg-white/15 hover:border-white/30 transition-all duration-300 ease-calm focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent" aria-label="Unmute">
+<span class="material-symbols-outlined text-[22px] leading-none forma-video-mute-icon" aria-hidden="true">volume_off</span>
+</button>
+</div>
+</div>
+<div class="mt-9 md:mt-11 text-center max-w-3xl mx-auto px-2">
+<span class="text-[10px] font-bold tracking-[0.2em] text-white/45 mb-2.5 block uppercase">Brand film</span>
+<h3 class="text-white font-headline text-2xl md:text-3xl font-bold tracking-tight leading-[1.35]">The future of spatial composition</h3>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 3: Product Moment -->
+<section class="py-20 md:py-24 px-6 sm:px-10 md:px-12 bg-surface border-t border-black/[0.04]">
+<div class="max-w-7xl mx-auto w-full">
+<div class="bg-white rounded-lg shadow-2xl shadow-black/[0.04] ring-1 ring-black/[0.06] overflow-hidden p-5 md:p-7 transition-shadow duration-500 ease-calm hover:shadow-black/[0.06] reveal reveal-fade">
+<div class="flex items-center gap-3 mb-6 border-b border-surface-container-low pb-4">
+<div class="flex gap-1.5">
+<div class="w-2.5 h-2.5 rounded-full bg-error/20"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-primary/10"></div>
+<div class="w-2.5 h-2.5 rounded-full bg-primary/10"></div>
+</div>
+<div class="h-4 w-px bg-surface-container-high mx-2"></div>
+<span class="text-[10px] font-label tracking-widest text-on-surface-variant font-bold">Scenes / Composition v4 final</span>
+</div>
+<div class="grid grid-cols-12 gap-6 lg:gap-8 h-[600px]">
+<!-- Left Panel: Layers -->
+<div class="col-span-3 flex flex-col gap-4">
+<h3 class="text-[11px] font-label font-black tracking-widest text-on-surface-variant">Layers</h3>
+<div class="space-y-2 overflow-y-auto no-scrollbar">
+<div class="p-3 rounded-lg bg-surface-container-high flex items-center justify-between border border-primary/5 hover:border-primary/10 transition-colors duration-150">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-sm">visibility</span>
+<span class="text-xs font-semibold">Foreground fog</span>
+</div>
+<span class="text-[10px] text-on-surface-variant">80%</span>
+</div>
+<div class="p-3 rounded-lg bg-cta text-on-cta flex items-center justify-between shadow-md shadow-black/15">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-sm">visibility</span>
+<span class="text-xs font-semibold">Core subject A</span>
+</div>
+<span class="text-[10px] opacity-70">100%</span>
+</div>
+<div class="p-3 rounded-lg bg-surface-container-low flex items-center justify-between transition-colors duration-150 hover:bg-surface-container-high/70">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-sm">visibility</span>
+<span class="text-xs font-semibold">Atmospheric light</span>
+</div>
+<span class="text-[10px] text-on-surface-variant">45%</span>
+</div>
+<div class="p-3 rounded-lg bg-surface-container-low flex items-center justify-between transition-colors duration-150 hover:bg-surface-container-high/70">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-sm">visibility</span>
+<span class="text-xs font-semibold">Background plate</span>
+</div>
+<span class="text-[10px] text-on-surface-variant">100%</span>
+</div>
+</div>
+</div>
+<!-- Main Canvas -->
+<div class="col-span-6 bg-surface-container-low rounded-md relative overflow-hidden group ring-1 ring-black/[0.04]">
+<img class="w-full h-full object-cover grayscale-[0.2] contrast-125 img-hover group-hover:scale-[1.02]" data-alt="Abstract cinematic 3D render of architectural elements with soft directional lighting and deep shadows" loading="lazy" decoding="async" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDxBnlYny_HJLOj-Ec2MjGiNwVpKYOcSXHeG7FG6ih1X4OiUOLLuGh8MeNJJb-QNRpQ-OlY2NEpshxVLg9Rc1qnhVBfUmkD0OjdLGB26CGHd1THD5Xzi6dxos3OU-jNzxU2Lza-DfQK5584Qz-tiJOg7sfanhaOjtcNkxekPw4z9-V2todFXBgmDfx7Vh0zPlQPeq4N-QpeSkMsuiE49ZRZ1jZO-CqsbH9NL4AqQvggErple0ydgLe8oepjaVA-Z-fcxF-GdnPmQg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent pointer-events-none"></div>
+<div class="absolute top-4 right-4 flex gap-2">
+<div class="glass-panel bg-white/40 px-3 py-1.5 rounded-md text-[10px] font-bold tracking-widest">8K preview</div>
+</div>
+</div>
+<!-- Right Panel: Controls -->
+<div class="col-span-3 flex flex-col gap-6">
+<div>
+<h3 class="text-[11px] font-label font-black tracking-widest text-on-surface-variant mb-4">Lighting controls</h3>
+<div class="space-y-6">
+<div>
+<div class="flex justify-between mb-2">
+<label class="text-xs font-medium leading-snug">Intensity</label>
+<span class="text-xs font-bold">1.24cd</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full w-[70%] bg-primary rounded-full"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between mb-2">
+<label class="text-xs font-medium leading-snug">Kelvin</label>
+<span class="text-xs font-bold">5600K</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full w-[45%] bg-primary rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-6">
+<h3 class="text-[11px] font-label font-black tracking-widest text-on-surface-variant mb-4">Refine</h3>
+<div class="space-y-6">
+<div>
+<div class="flex justify-between mb-2">
+<label class="text-xs font-medium leading-snug">Sampling rate</label>
+<span class="text-xs font-bold">High</span>
+</div>
+<div class="h-1.5 w-full bg-surface-container-high rounded-full overflow-hidden">
+<div class="h-full w-[85%] bg-primary rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-auto pt-6 border-t border-surface-container-low">
+<button type="button" class="w-full bg-cta text-on-cta px-4 py-3 rounded-lg text-xs font-bold tracking-[0.2em] hover:brightness-95 active:scale-[0.99] transition-all duration-300 ease-calm">Render node</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 4: Features Grid -->
+<section class="py-20 md:py-24 px-6 sm:px-10 md:px-12 bg-surface-container-lowest">
+<div class="max-w-7xl mx-auto w-full">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16">
+<div class="group reveal">
+<div class="w-12 h-px bg-primary mb-6 origin-left group-hover:w-24 transition-[width] duration-500 ease-out"></div>
+<h3 class="font-headline text-2xl font-bold mb-3 tracking-tight text-primary group-hover:text-primary/90 transition-colors duration-300 leading-snug">Non-destructive layering</h3>
+<p class="text-on-surface-variant text-sm leading-[1.72] max-w-xs">Manipulate every element as a discrete object. Swap, scale, and adjust without losing the integrity of your core prompt.</p>
+</div>
+<div class="group reveal reveal-delay-1">
+<div class="w-12 h-px bg-primary mb-6 origin-left group-hover:w-24 transition-[width] duration-500 ease-out"></div>
+<h3 class="font-headline text-2xl font-bold mb-3 tracking-tight text-primary group-hover:text-primary/90 transition-colors duration-300 leading-snug">Dynamic lighting</h3>
+<p class="text-on-surface-variant text-sm leading-[1.72] max-w-xs">Physically accurate global illumination that reacts instantly to position changes. Cinematic shadows rendered in real-time.</p>
+</div>
+<div class="group reveal reveal-delay-2">
+<div class="w-12 h-px bg-primary mb-6 origin-left group-hover:w-24 transition-[width] duration-500 ease-out"></div>
+<h3 class="font-headline text-2xl font-bold mb-3 tracking-tight text-primary group-hover:text-primary/90 transition-colors duration-300 leading-snug">Refined sampling control</h3>
+<p class="text-on-surface-variant text-sm leading-[1.72] max-w-xs">Iteratively refine individual parts of your composition with surgical precision. Control latent throughput for high-fidelity sampling without losing structural integrity.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 6: Final CTA -->
+<section class="py-24 md:py-32 px-6 sm:px-10 md:px-12 bg-primary text-on-primary text-center border-t border-white/10">
+<div class="w-full max-w-7xl mx-auto flex flex-col items-center">
+<div class="w-full max-w-3xl mx-auto reveal reveal-fade">
+<h2 class="font-headline text-5xl sm:text-6xl font-bold tracking-tighter text-on-primary mb-6 md:mb-7 leading-[1.12]">Define the scene.</h2>
+<p class="text-on-primary/75 text-lg leading-[1.65] mb-8 md:mb-9 max-w-xl mx-auto">Join a new generation of digital artists using Forma to push the boundaries of spatial AI composition.</p>
+<div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-5 max-w-md sm:max-w-none mx-auto">
+<button type="button" class="inline-flex items-center justify-center min-h-[52px] px-10 sm:px-12 py-4 sm:py-[1.125rem] rounded-full bg-cta text-on-cta text-base sm:text-lg font-bold tracking-tight shadow-md shadow-black/25 hover:brightness-95 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] transition-all duration-300 ease-calm">Start creating now</button>
+<button type="button" class="inline-flex items-center justify-center min-h-[52px] px-8 sm:px-10 py-4 rounded-full border-2 border-white/25 bg-transparent text-on-primary text-base font-semibold tracking-tight hover:border-white/45 hover:bg-white/10 hover:-translate-y-0.5 active:scale-[0.99] transition-all duration-300 ease-calm">Talk to sales</button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full border-t border-black/[0.06] bg-[#edece6]/95">
+<div class="flex flex-col md:flex-row justify-between items-center gap-8 md:gap-10 px-6 sm:px-10 md:px-12 py-10 md:py-12 w-full max-w-7xl mx-auto reveal reveal-fade">
+<div class="mb-0 text-center md:text-left">
+<div class="text-lg font-black text-neutral-900 mb-2 tracking-tight leading-tight">Forma</div>
+<div class="font-manrope text-[10px] tracking-[0.2em] font-semibold text-neutral-400 leading-relaxed">© 2026 Forma AI. Precision in every pixel.</div>
+</div>
+<div class="flex flex-wrap justify-center gap-x-8 gap-y-3 font-manrope text-xs tracking-[0.2em] font-semibold">
+<a class="text-neutral-400 hover:text-neutral-900 underline-offset-[6px] hover:underline transition-colors duration-300 ease-calm" href="#">Privacy policy</a>
+<a class="text-neutral-400 hover:text-neutral-900 underline-offset-[6px] hover:underline transition-colors duration-300 ease-calm" href="#">Terms of service</a>
+<a class="text-neutral-400 hover:text-neutral-900 underline-offset-[6px] hover:underline transition-colors duration-300 ease-calm" href="#">Twitter</a>
+<a class="text-neutral-400 hover:text-neutral-900 underline-offset-[6px] hover:underline transition-colors duration-300 ease-calm" href="#">LinkedIn</a>
+<a class="text-neutral-400 hover:text-neutral-900 underline-offset-[6px] hover:underline transition-colors duration-300 ease-calm" href="#">Contact</a>
+</div>
+</div>
+</footer>
+<script>
+(function () {
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  var els = document.querySelectorAll(".reveal");
+  if (!els.length) return;
+  var io = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add("is-visible");
+      io.unobserve(entry.target);
+    });
+  }, { rootMargin: "0px 0px -7% 0px", threshold: 0.08 });
+  els.forEach(function (el) { io.observe(el); });
+})();
+(function () {
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var AUTO_MS = reduced ? 0 : 5200;
+  document.querySelectorAll("[data-edit-gallery]").forEach(function (root) {
+    var imgs = root.querySelectorAll(".edit-stage-img[data-stage]");
+    var tabs = root.querySelectorAll("[data-stage-tab]");
+    var idx = 0;
+    var timer;
+    function show(i) {
+      idx = i;
+      imgs.forEach(function (img, j) {
+        var on = j === i;
+        img.classList.toggle("opacity-100", on);
+        img.classList.toggle("z-[2]", on);
+        img.classList.toggle("opacity-0", !on);
+        img.classList.toggle("z-[1]", !on);
+        img.setAttribute("aria-hidden", on ? "false" : "true");
+      });
+      tabs.forEach(function (tab, j) {
+        var on = j === i;
+        tab.setAttribute("aria-selected", on ? "true" : "false");
+        tab.classList.toggle("bg-white/[0.14]", on);
+        tab.classList.toggle("text-white", on);
+        tab.classList.toggle("shadow-sm", on);
+        tab.classList.toggle("text-white/45", !on);
+        tab.classList.toggle("hover:text-white/80", !on);
+      });
+    }
+    function next() {
+      show((idx + 1) % 3);
+    }
+    function arm() {
+      clearInterval(timer);
+      if (AUTO_MS) timer = setInterval(next, AUTO_MS);
+    }
+    tabs.forEach(function (tab, j) {
+      tab.addEventListener("click", function () {
+        show(j);
+        arm();
+      });
+    });
+    root.addEventListener("mouseenter", function () {
+      clearInterval(timer);
+    });
+    root.addEventListener("mouseleave", function () {
+      arm();
+    });
+    root.addEventListener("focusin", function () {
+      clearInterval(timer);
+    });
+    root.addEventListener("focusout", function (e) {
+      if (!root.contains(e.relatedTarget)) arm();
+    });
+    show(0);
+    arm();
+  });
+})();
+(function () {
+  var video = document.getElementById("forma-brand-video");
+  if (!video) return;
+  var playBtn = document.getElementById("forma-video-play");
+  var muteBtn = document.getElementById("forma-video-mute");
+  var playIcon = playBtn && playBtn.querySelector(".forma-video-play-icon");
+  var muteIcon = muteBtn && muteBtn.querySelector(".forma-video-mute-icon");
+  var reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function syncPlayState() {
+    if (!playIcon) return;
+    playIcon.textContent = video.paused ? "play_arrow" : "pause";
+    playBtn.setAttribute("aria-label", video.paused ? "Play" : "Pause");
+  }
+  function syncMuteState() {
+    if (!muteIcon) return;
+    muteIcon.textContent = video.muted ? "volume_off" : "volume_up";
+    muteBtn.setAttribute("aria-label", video.muted ? "Unmute" : "Mute");
+  }
+  if (!reducedMotion) {
+    video.muted = true;
+    var playPromise = video.play();
+    if (playPromise && playPromise.catch) playPromise.catch(function () {});
+  } else {
+    video.pause();
+  }
+  syncPlayState();
+  syncMuteState();
+  playBtn.addEventListener("click", function () {
+    if (video.paused) {
+      var p = video.play();
+      if (p && p.catch) p.catch(function () {});
+    } else {
+      video.pause();
+    }
+  });
+  muteBtn.addEventListener("click", function () {
+    video.muted = !video.muted;
+    syncMuteState();
+  });
+  video.addEventListener("play", syncPlayState);
+  video.addEventListener("pause", syncPlayState);
+  video.addEventListener("volumechange", syncMuteState);
+})();
+</script>
+</body></html>
